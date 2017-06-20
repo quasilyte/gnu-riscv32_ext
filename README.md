@@ -1,2 +1,5 @@
 # gnu-riscv32_ext
-Extending GCC riscv32 compiler and spike emulator
+
+This repository will complement "RISC-V: custom instruction and its simulation" tutorial.
+
+Stay tuned.
