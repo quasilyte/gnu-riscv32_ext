@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# [4]
+# check-install: try to find out it installation was successful.
+
+cc='riscv32-unknown-elf-gcc'
+
+function check-cmd {
+    name="${1}"
+    command -v "${name}" >/dev/null 2>&1 ||
+        (echo "${name}: command not found" && exit 1)
+    echo "[OK] located ${name}"
+}
+
+function check-spike {
+    mkdir -p build &&
+        ${cc} data/hello.c -o build/hello &&
+        echo '[OK] C compiler works' &&
+        spike --isa=RV32IM "${RISCV_PK}" build/hello &&
+        echo '[OK] spike works'
+}
+
+check-cmd "${cc}" &&
+    check-cmd 'spike' &&
+    check-spike &&
+    echo '[OK] done'
