@@ -8,3 +8,5 @@ export RISCV="${RISCV_HOME}/riscv"
 export PATH="${PATH}:${RISCV}/bin"
 
 mkdir -p "${RISCV_HOME}" "${RISCV}"
+
+echo '[OK] done'

@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# [3]
+# build-repos: build downloaded repositories.
+
+# Get packages that are required to build the GNU toolchain.
+# The list provided by https://github.com/riscv/riscv-gnu-toolchain README.
+sudo apt-get install \
+    autoconf \
+    automake \
+    autotools-dev \
+    curl \
+    libmpc-dev \
+    libmpfr-dev \
+    libgmp-dev \
+    gawk \
+    build-essential \
+    bison \
+    flex \
+    texinfo \
+    gperf \
+    libtool \
+    patchutils \
+    bc \
+    zlib1g-dev \
+    device-tree-compiler || exit 1
+
+function mk-toolchain {
+    cd "${RISCV_HOME}/riscv-gnu-toolchain" &&
+        ./configure --prefix="${RISCV}" --with-arch=rv32i &&
+        echo 'this can take more than a hour...' &&
+        make &&
+        echo '[OK] mk-toolchain: done'
+}
+
+function mk-fesvr {
+    cd "${RISCV_HOME}/riscv-fesvr" &&
+        mkdir -p build &&
+        cd build &&
+        ../configure --prefix="${RISCV}" &&
+        make install &&
+        echo '[OK] mk-fesvr: done'
+}
+
+function mk-pk {
+    # See issue https://github.com/riscv/riscv-pk/issues/56.
+    # Remove '-m32' occurences from Makefile 
+    # to fix "error: unrecognized command line option '-m32'".
+    cd "${RISCV_HOME}/riscv-pk" &&
+        mkdir -p build &&
+        cd build &&
+        ../configure --prefix="${RISCV}" --host=riscv32-unknown-elf --enable-32bit &&
+        sed -i 's/\-m32//g' Makefile &&
+        make &&
+        make install &&
+        echo '[OK] mk-pk: done'
+}
+
+function mk-spike {
+    cd "${RISCV_HOME}/riscv-isa-sim" &&
+        mkdir -p build &&
+        cd build &&
+        ../configure --prefix="${RISCV}" --with-fesvr="${RISCV}" &&
+        make &&
+        sudo make install &&
+        echo '[OK] mk-spike: done'
+}
+
+# The order matters.
+mk-toolchain &&
+    mk-fesvr &&
+    mk-pk &&
+    mk-spike &&
+    echo '[OK] done'
