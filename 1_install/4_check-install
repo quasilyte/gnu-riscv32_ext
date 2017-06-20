@@ -15,9 +15,9 @@ function check-cmd {
 
 function check-spike {
     mkdir -p build &&
-        ${cc} data/hello.c -o build/cc_hello &&
+        ${cc} data/hello.c -O1 -march=rv32im -o build/cc_hello &&
         echo '[OK] C compiler works' &&
-        ${cxx} data/hello.cpp -o build/cxx_hello &&
+        ${cxx} data/hello.cpp -O1 -march=rv32im -o build/cxx_hello &&
         echo '[OK] C++ compiler works' &&
         spike --isa=RV32IM "${RISCV_PK}" build/cc_hello &&
         spike --isa=RV32IM "${RISCV_PK}" build/cxx_hello &&
