@@ -21,4 +21,5 @@ riscv-clone 'riscv-fesvr' &&
     riscv-clone 'riscv-pk' &&
     riscv-clone 'riscv-isa-sim' &&
     riscv-clone 'riscv-opcodes' && 
-    riscv-clone 'riscv-gnu-toolchain'
+    riscv-clone 'riscv-gnu-toolchain' && 
+    echo 'done'
