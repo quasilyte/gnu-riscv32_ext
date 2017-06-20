@@ -1,6 +1,6 @@
 #include <stdio.h>
 
 int main(int argc, char** argv) {
-    puts("hello from spike!");
+    puts("<C> hello from spike!");
     return 0;
 }
