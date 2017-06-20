@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# [1]
+# prepare-env: export required environment variables, create folders.
+
+export RISCV_HOME=~/riscv-home
+export RISCV="${RISCV_HOME}/riscv"
+export PATH="${PATH}:${RISCV}/bin"
+
+mkdir -p "${RISCV_HOME}" "${RISCV}"

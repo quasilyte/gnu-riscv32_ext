@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# [2]
+# download-repos: clone all repositories to $RISCV_HOME.
+
+if [ -z "${RISCV_HOME}" ]; then
+    echo '$RISCV_HOME is undefined; run `source prepare-env`'
+    exit 1
+fi
+
+dst="${RISCV_HOME}"
+echo "destination folder is ${dst}"
+
+function riscv-clone {
+    repo="${1}"
+    git clone "https://github.com/riscv/${repo}" "${dst}/${repo}" &&
+        echo "[OK] ${repo} cloning finished"
+}
+
+riscv-clone 'riscv-fesvr' &&
+    riscv-clone 'riscv-pk' &&
+    riscv-clone 'riscv-isa-sim' &&
+    riscv-clone 'riscv-opcodes' && 
+    riscv-clone 'riscv-gnu-toolchain'
