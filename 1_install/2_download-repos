@@ -14,7 +14,8 @@ echo "destination folder is ${dst}"
 function riscv-clone {
     repo="${1}"
     revision="${2}"
-    git clone -b master "https://github.com/riscv/${repo}" "${dst}/${repo}" &&
+    shift 2
+    git clone -b master $@ "https://github.com/riscv/${repo}" "${dst}/${repo}" &&
         cd "${dst}/${repo}" &&
         git checkout "${revision}" &&
         echo "[OK] ${repo} cloning finished"
@@ -25,5 +26,5 @@ riscv-clone 'riscv-fesvr' '01932a715edd22ee451d86cde38c7c07dc9bfa7e' &&
     riscv-clone 'riscv-isa-sim' '3a4e89322a8c8dac94185812a238f13789ab392f' &&
     riscv-clone 'riscv-opcodes' 'e0abc2255a71afb0236032ae3d92bea26c15716d' && 
     riscv-clone 'riscv-tests' '9e313f30205b8172290831c3af18b0779e9b15f2' &&
-    riscv-clone 'riscv-gnu-toolchain' 'f5fae1c27b2365da773816ddcd92f533867f28ec' && 
+    riscv-clone 'riscv-gnu-toolchain' 'f5fae1c27b2365da773816ddcd92f533867f28ec' --recursive && 
     echo '[OK] done'
