@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# [2]
+# check-mac: check if we can actually use "mac" instruction.
+
+riscv32-unknown-elf-gcc data/test_mac.c -O1 -march=rv32im -o build/test_mac &&
+    spike --isa=RV32IM "${RISCV_PK}" build/test_mac &&
+    echo '[OK] done'

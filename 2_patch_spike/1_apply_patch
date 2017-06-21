@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# [1]
+# apply-patch: teach Spike to understand custom "mac" instruction.
+
+opcodes="${RISCV_HOME}/riscv-opcodes/opcodes"
+backup="${opcodes}.bak"
+
+# Create a backup.
+if [ ! -f "${backup}" ]; then
+    cp "${opcodes}" "${backup}"
+fi
+
+cp data/mac.h "${RISCV_HOME}/riscv-isa-sim/riscv/insns/" &&
+    (cat "${backup}" ./data/mac_opcode.txt > "${opcodes}") &&
+    cd "${RISCV_HOME}/riscv-opcodes" &&
+    make install &&
+    echo '[OK] generated opcodes' &&
+    cd "${RISCV_HOME}/riscv-isa-sim/build" &&
+    sudo make install &&
+    echo '[OK] rebuilt Spike' &&
+    echo '[OK] done'
